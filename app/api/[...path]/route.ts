@@ -52,6 +52,40 @@ async function handle(req: NextRequest, ctx: Ctx) {
   const path = (await ctx.params).path;
   const route = path.join('/');
   const method = req.method.toUpperCase();
+
+  // Temporary client-preview mode: no database writes or admin operations.
+  if (process.env.PREVIEW_MODE === 'true') {
+    if (route === 'health' && method === 'GET') {
+      return json({ status: 'ok', mode: 'preview', database: 'disabled' });
+    }
+
+    if (route === 'public' && method === 'GET') {
+      return json({
+        settings: EMPTY_SETTINGS,
+        campaigns: [],
+        media: [],
+        gallery: [],
+        reviews: []
+      });
+    }
+
+    if (['messages', 'donations', 'members', 'reviews'].includes(route)
+        && method === 'POST') {
+      return json({
+        error: 'preview_mode',
+        message: 'This feature will be enabled after the website review.'
+      }, 503);
+    }
+
+    if (route.startsWith('admin/')) {
+      return json({
+        error: 'preview_mode',
+        message: 'Administration will be enabled after database setup.'
+      }, 503);
+    }
+
+    return json({ error: 'not_found' }, 404);
+  }
   if (route !== 'admin/login' && !process.env.DATABASE_URL) return json({ error: 'server_not_configured', detail: 'DATABASE_URL is not configured.' }, 503);
   try {
     if (route === 'health' && method === 'GET') {
