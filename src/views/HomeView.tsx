@@ -3,6 +3,8 @@ import { useApp } from '../context/AppContext';
 import { IMAGES } from '../assets/images';
 import { CommunityMembers } from '../components/CommunityMembers';
 import { Campaign } from '../types';
+import { FadeIn } from '../components/FadeIn';
+import { motion } from 'motion/react';
 import { Star, ChevronLeft, ChevronRight, Send, CheckCircle2, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
 
 export const HomeView: React.FC = () => {
@@ -98,15 +100,17 @@ export const HomeView: React.FC = () => {
 
   return (
     <div className="space-y-20 pb-24 text-slate-800 bg-white">
-      {/* HERO SECTION */}
+      
+      {/* 1. HERO SECTION WITH FADING SLIDESHOW & SMOOTH INTRO */}
       <section className="relative min-h-[520px] sm:min-h-[580px] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           {IMAGES.heroSlides.map((slide, index) => (
             <div
               key={index}
               className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
               }`}
+              style={{ transition: 'opacity 1.2s ease-in-out, transform 6s ease-out' }}
             >
               <img
                 src={typeof slide === "string" ? slide : slide.src}
@@ -119,33 +123,46 @@ export const HomeView: React.FC = () => {
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-20 text-center text-white">
-          <h1 className="font-cinzel text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
-            {language === 'fr'
-              ? "Bienvenue à La Gloire de Dieu"
-              : "Welcome to La Gloire de Dieu"}
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="font-cinzel text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight"
+          >
+            {language === 'fr' ? "Bienvenue à La Gloire de Dieu" : "Welcome to La Gloire de Dieu"}
+          </motion.h1>
 
-          <p className="mt-4 text-sm sm:text-base lg:text-lg text-slate-200 leading-relaxed max-w-2xl mx-auto font-normal">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 text-sm sm:text-base lg:text-lg text-slate-200 leading-relaxed max-w-2xl mx-auto font-normal"
+          >
             {language === 'fr'
               ? "Une association chrétienne engagée pour lever des fonds et apporter un secours direct, spirituel et matériel aux communautés chrétiennes démunies et persécutées dans le monde."
               : "A Christian association committed to raising funds and delivering tangible spiritual and humanitarian relief to vulnerable and persecuted Christian communities worldwide."}
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5"
+          >
             <button
               onClick={() => setActivePage('who-we-are')}
-              className="w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold text-white bg-[#1C295E] hover:bg-[#152048] transition-colors cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold text-white bg-[#1C295E] hover:bg-[#152048] transition-all cursor-pointer hover:scale-105 active:scale-95"
             >
               {language === 'fr' ? 'Qui Sommes-Nous' : 'Who We Are'}
             </button>
 
             <button
               onClick={() => setActivePage('contact')}
-              className="w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/30 transition-colors cursor-pointer backdrop-blur-xs"
+              className="w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/30 transition-all cursor-pointer backdrop-blur-xs hover:scale-105 active:scale-95"
             >
               {language === 'fr' ? 'Contact' : 'Contact Us'}
             </button>
-          </div>
+          </motion.div>
 
           <div className="mt-10 flex items-center justify-center gap-2">
             {IMAGES.heroSlides.map((_, i) => (
@@ -153,7 +170,7 @@ export const HomeView: React.FC = () => {
                 key={i}
                 onClick={() => setCurrentSlide(i)}
                 aria-label={`Slide ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                   i === currentSlide ? 'w-6 bg-white' : 'w-2 bg-white/40'
                 }`}
               />
@@ -162,8 +179,8 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
-      {/* SECTION: QUI SOMMES-NOUS ? (SUMMARIZED INTO 2 CONCISE PARAGRAPHS) */}
-      <section className="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      {/* 2. SECTION: QUI SOMMES-NOUS ? (FADE IN ON SCROLL) */}
+      <FadeIn className="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="space-y-8">
           <div className="text-center space-y-3">
             <h2 className="font-cinzel text-2xl sm:text-4xl font-bold text-[#1C295E]">
@@ -199,12 +216,12 @@ export const HomeView: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
+      </FadeIn>
 
-      {/* SECTION: NOUS SUIVRE */}
+      {/* 3. SECTION: NOUS SUIVRE (STAGGERED FADE-IN CARDS) */}
       <section className="bg-white py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="text-center max-w-3xl mx-auto space-y-2">
+          <FadeIn className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Nous Suivre' : 'Follow Us'}
             </h2>
@@ -218,98 +235,71 @@ export const HomeView: React.FC = () => {
                 ? 'Accédez aux ressources spirituelles produites par l’église pour fortifier votre marche avec Dieu et demeurer connectés à nos activités.'
                 : 'Access anointed spiritual content produced by the ministry to strengthen your walk with God and stay connected.'}
             </p>
-          </div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  {language === 'fr' ? 'Direct & Culte en ligne' : 'Live Broadcast'}
-                </span>
-                <h3 className="font-cinzel text-lg sm:text-xl font-bold text-[#1C295E]">
-                  {language === 'fr' ? 'Événements & Cultes en Direct' : 'Live Events & Broadcasts'}
-                </h3>
-                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                  {language === 'fr'
-                    ? 'Les cultes en direct, rassemblements et événements apparaîtront ici.'
-                    : 'Live events, services, and broadcasts will appear here.'}
-                </p>
-              </div>
-              <div className="pt-2">
-                <button
-                  onClick={() => setActivePage('follow-us')}
-                  className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center"
-                >
-                  {language === 'fr' ? 'Rejoindre le Direct' : 'Watch Live'}
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  {language === 'fr' ? 'Vidéos & Prédications' : 'Videos & Sermons'}
-                </span>
-                <h3 className="font-cinzel text-lg sm:text-xl font-bold text-[#1C295E]">
-                  {language === 'fr' ? 'Vidéos & Enseignements' : 'Videos & Teachings'}
-                </h3>
-                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                  {language === 'fr'
-                    ? 'Les vidéos, prédications et enseignements bibliques apparaîtront ici.'
-                    : 'Videos, sermons, and biblical teachings will appear here.'}
-                </p>
-              </div>
-              <div className="pt-2">
-                <button
-                  onClick={() => setActivePage('follow-us')}
-                  className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center"
-                >
-                  {language === 'fr' ? 'Voir les Vidéos' : 'Watch Videos'}
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  {language === 'fr' ? 'Livres Clefs' : 'Key Books'}
-                </span>
-                <h3 className="font-cinzel text-lg sm:text-xl font-bold text-[#1C295E]">
-                  {language === 'fr' ? 'Livres & Publications' : 'Books & Publications'}
-                </h3>
-                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                  {language === 'fr'
-                    ? 'Les livres clefs, manuels et publications spirituelles apparaîtront ici.'
-                    : 'Key books, manuals, and spiritual publications will appear here.'}
-                </p>
-              </div>
-              <div className="pt-2">
-                <button
-                  onClick={() => setActivePage('follow-us')}
-                  className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center"
-                >
-                  {language === 'fr' ? 'Consulter les Livres' : 'Browse Books'}
-                </button>
-              </div>
-            </div>
+            {[
+              {
+                tag: language === 'fr' ? 'Direct & Culte en ligne' : 'Live Broadcast',
+                title: language === 'fr' ? 'Événements & Cultes en Direct' : 'Live Events & Broadcasts',
+                desc: language === 'fr' ? 'Les cultes en direct, rassemblements et événements apparaîtront ici.' : 'Live events, services, and broadcasts will appear here.',
+                btn: language === 'fr' ? 'Rejoindre le Direct' : 'Watch Live'
+              },
+              {
+                tag: language === 'fr' ? 'Vidéos & Prédications' : 'Videos & Sermons',
+                title: language === 'fr' ? 'Vidéos & Enseignements' : 'Videos & Teachings',
+                desc: language === 'fr' ? 'Les vidéos, prédications et enseignements bibliques apparaîtront ici.' : 'Videos, sermons, and biblical teachings will appear here.',
+                btn: language === 'fr' ? 'Voir les Vidéos' : 'Watch Videos'
+              },
+              {
+                tag: language === 'fr' ? 'Livres Clefs' : 'Key Books',
+                title: language === 'fr' ? 'Livres & Publications' : 'Books & Publications',
+                desc: language === 'fr' ? 'Les livres clefs, manuels et publications spirituelles apparaîtront ici.' : 'Key books, manuals, and spiritual publications will appear here.',
+                btn: language === 'fr' ? 'Consulter les Livres' : 'Browse Books'
+              }
+            ].map((card, i) => (
+              <FadeIn key={i} delay={i * 0.12} className="h-full">
+                <div className="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col justify-between h-full space-y-5 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                  <div className="space-y-3">
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      {card.tag}
+                    </span>
+                    <h3 className="font-cinzel text-lg sm:text-xl font-bold text-[#1C295E]">
+                      {card.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+                      {card.desc}
+                    </p>
+                  </div>
+                  <div className="pt-2">
+                    <button
+                      onClick={() => setActivePage('follow-us')}
+                      className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center"
+                    >
+                      {card.btn}
+                    </button>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
           </div>
 
-          <div className="text-center pt-2">
+          <FadeIn className="text-center pt-2">
             <button
               onClick={() => setActivePage('follow-us')}
               className="btn-translucent-hero w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold cursor-pointer inline-flex items-center justify-center"
             >
               {language === 'fr' ? 'Voir toutes les vidéos, livres, conférences et prières' : 'Browse all videos, books, conferences, and prayers'}
             </button>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* SECTION: MISSIONS PRIORITAIRES */}
+      {/* 4. SECTION: MISSIONS PRIORITAIRES (WITH SMOOTH REVEAL) */}
       {campaigns.length > 0 && (
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          <div className="text-center max-w-3xl mx-auto space-y-2">
+          <FadeIn className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Missions & Projets Prioritaires' : 'Priority Missions & Projects'}
             </h2>
@@ -318,97 +308,98 @@ export const HomeView: React.FC = () => {
                 ? 'Soutenez concrètement les œuvres d’évangélisation et de miséricorde'
                 : 'Directly support active evangelism and compassion works'}
             </p>
-          </div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {campaigns.slice(0, 4).map((campaign) => {
+            {campaigns.slice(0, 4).map((campaign, i) => {
               const title = language === 'fr' ? campaign.titleFr : campaign.titleEn;
               const desc = language === 'fr' ? campaign.descriptionFr : campaign.descriptionEn;
 
               return (
-                <div
-                  key={campaign.id}
-                  className="bg-white rounded-2xl flex flex-col justify-between space-y-4 hover:translate-y-[-2px] transition-transform duration-200"
-                >
-                  <div className="space-y-3">
-                    {campaign.imageUrl && (
-                      <div className="relative h-48 w-full overflow-hidden rounded-xl bg-slate-100">
-                        <img
-                          src={campaign.imageUrl}
-                          alt={title}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                        />
-                      </div>
-                    )}
+                <FadeIn key={campaign.id} delay={i * 0.1}>
+                  <div
+                    className="bg-white rounded-2xl flex flex-col justify-between h-full space-y-4 border border-slate-100 p-3 shadow-xs hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300"
+                  >
+                    <div className="space-y-3">
+                      {campaign.imageUrl && (
+                        <div className="relative h-48 w-full overflow-hidden rounded-xl bg-slate-100">
+                          <img
+                            src={campaign.imageUrl}
+                            alt={title}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-108"
+                          />
+                        </div>
+                      )}
 
-                    <div className="space-y-2 pt-1">
-                      <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-500">
-                        {campaign.location}
-                      </span>
-                      <h3 className="font-cinzel text-base sm:text-lg font-bold text-[#1C295E] leading-snug">
-                        {title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        {desc}
-                      </p>
+                      <div className="space-y-2 pt-1 px-1">
+                        <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-500">
+                          {campaign.location}
+                        </span>
+                        <h3 className="font-cinzel text-base sm:text-lg font-bold text-[#1C295E] leading-snug">
+                          {title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                          {desc}
+                        </p>
+                      </div>
+
+                      {(() => {
+                        const percentage = Math.min(
+                          100,
+                          Math.max(
+                            0,
+                            Math.round(((campaign.currentAmount || 0) / (campaign.targetAmount || 1)) * 100)
+                          )
+                        );
+                        return (
+                          <div className="space-y-1.5 pt-2 px-1">
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="font-bold text-[#1C295E]">
+                                {percentage}% {language === 'fr' ? 'collecté' : 'funded'}
+                              </span>
+                              <span className="text-slate-500 text-[11px] font-medium">
+                                {campaign.donorsCount} {language === 'fr' ? 'donateurs' : 'donors'}
+                              </span>
+                            </div>
+                            <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                              <div
+                                className="bg-gradient-to-r from-[#1C295E] to-[#2B3F8C] h-full rounded-full transition-all duration-700 ease-out"
+                                style={{ width: `${percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
 
-                    {(() => {
-                      const percentage = Math.min(
-                        100,
-                        Math.max(
-                          0,
-                          Math.round(((campaign.currentAmount || 0) / (campaign.targetAmount || 1)) * 100)
-                        )
-                      );
-                      return (
-                        <div className="space-y-1.5 pt-2">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-bold text-[#1C295E]">
-                              {percentage}% {language === 'fr' ? 'collecté' : 'funded'}
-                            </span>
-                            <span className="text-slate-500 text-[11px] font-medium">
-                              {campaign.donorsCount} {language === 'fr' ? 'donateurs' : 'donors'}
-                            </span>
-                          </div>
-                          <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                            <div
-                              className="bg-gradient-to-r from-[#1C295E] to-[#2B3F8C] h-full rounded-full transition-all duration-500 ease-out"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })()}
+                    <div className="pt-2">
+                      <button
+                        onClick={() => handleDonateToCampaign(campaign)}
+                        className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center inline-flex items-center justify-center"
+                      >
+                        {language === 'fr' ? 'Soutenir cette Action' : 'Support this Project'}
+                      </button>
+                    </div>
                   </div>
-
-                  <div className="pt-2">
-                    <button
-                      onClick={() => handleDonateToCampaign(campaign)}
-                      className="btn-translucent-hero w-full py-2.5 px-4 rounded-lg text-xs font-semibold cursor-pointer text-center inline-flex items-center justify-center"
-                    >
-                      {language === 'fr' ? 'Soutenir cette Action' : 'Support this Project'}
-                    </button>
-                  </div>
-                </div>
+                </FadeIn>
               );
             })}
           </div>
 
-          <div className="text-center pt-2">
+          <FadeIn className="text-center pt-2">
             <button
               onClick={() => setActivePage('donate')}
               className="btn-translucent-hero w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold cursor-pointer inline-flex items-center justify-center"
             >
               {language === 'fr' ? 'Faire un Don' : 'Make a Donation'}
             </button>
-          </div>
+          </FadeIn>
         </div>
       </section>
       )}
 
-      {/* SECTION: DEVENIR MEMBRE */}
-      <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. SECTION: DEVENIR MEMBRE (FADE IN) */}
+      <FadeIn className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
@@ -423,7 +414,7 @@ export const HomeView: React.FC = () => {
 
           <CommunityMembers />
 
-          <div className="bg-white p-8 sm:p-10 rounded-2xl text-center max-w-3xl mx-auto space-y-4">
+          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-slate-100 text-center max-w-3xl mx-auto space-y-4 shadow-xs">
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
               {language === 'fr'
                 ? "Devenir membre, c'est prendre part à une famille de foi, de prière et de service, et soutenir concrètement la mission de La Gloire de Dieu."
@@ -439,11 +430,11 @@ export const HomeView: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </FadeIn>
 
-      {/* SECTION: GALERIE */}
+      {/* 6. SECTION: GALERIE (FADE IN) */}
       {gallery.length > 0 && (
-      <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <FadeIn className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
@@ -456,7 +447,7 @@ export const HomeView: React.FC = () => {
             </p>
           </div>
 
-          <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-16/9 sm:aspect-21/9 max-h-[500px] w-full">
+          <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-16/9 sm:aspect-21/9 max-h-[500px] w-full shadow-lg">
             {gallery.map((item, index) => (
               <div
                 key={index}
@@ -511,7 +502,7 @@ export const HomeView: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => setGallerySlide(idx)}
-                className={`relative h-14 sm:h-16 w-20 sm:w-24 rounded-lg overflow-hidden transition-all cursor-pointer ${
+                className={`relative h-14 sm:h-16 w-20 sm:w-24 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer ${
                   activeGallerySlide === idx
                     ? 'ring-2 ring-[#1C295E] scale-105 opacity-100'
                     : 'opacity-60 hover:opacity-100'
@@ -526,13 +517,13 @@ export const HomeView: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </FadeIn>
       )}
 
-      {/* SECTION: TÉMOIGNAGES */}
+      {/* 7. SECTION: TÉMOIGNAGES (FADE IN) */}
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          <div className="text-center max-w-3xl mx-auto space-y-2">
+          <FadeIn className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Témoignages & Avis' : 'Testimonials & Reviews'}
             </h2>
@@ -541,9 +532,9 @@ export const HomeView: React.FC = () => {
                 ? 'L’impact de l’œuvre de Dieu dans la vie des fidèles et des partenaires'
                 : 'The impact of God’s work in the lives of believers and partners'}
             </p>
-          </div>
+          </FadeIn>
 
-          <div className="text-center">
+          <FadeIn className="text-center">
             <button
               onClick={() => setShowReviewForm(!showReviewForm)}
               className="btn-translucent-hero px-6 py-2.5 rounded-lg text-sm font-semibold cursor-pointer inline-flex items-center gap-2"
@@ -555,10 +546,15 @@ export const HomeView: React.FC = () => {
                   : (language === 'fr' ? 'Laisser un Avis / Témoignage' : 'Leave a Review')}
               </span>
             </button>
-          </div>
+          </FadeIn>
 
           {showReviewForm && (
-            <div className="bg-white p-6 sm:p-8 rounded-2xl max-w-2xl mx-auto space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              className="bg-white p-6 sm:p-8 rounded-2xl max-w-2xl mx-auto space-y-4 border border-slate-100 shadow-sm"
+            >
               <h3 className="font-cinzel text-lg font-bold text-[#1C295E]">
                 {language === 'fr' ? 'Partager votre Témoignage' : 'Share Your Testimonial'}
               </h3>
@@ -650,40 +646,41 @@ export const HomeView: React.FC = () => {
                   </button>
                 </form>
               )}
-            </div>
+            </motion.div>
           )}
 
           <div className={reviews.length ? 'grid grid-cols-1 md:grid-cols-3 gap-6' : 'hidden'}>
-            {reviews.slice(0, 6).map((rev) => (
-              <div
-                key={rev.id}
-                className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-4"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center gap-1 text-[#1C295E]">
-                    {[...Array(rev.rating || 5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#1C295E]" />
-                    ))}
+            {reviews.slice(0, 6).map((rev, i) => (
+              <FadeIn key={rev.id} delay={i * 0.08} className="h-full">
+                <div
+                  className="bg-white p-6 rounded-2xl flex flex-col justify-between h-full space-y-4 border border-slate-100 shadow-xs hover:shadow-md transition-all duration-300"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-1 text-[#1C295E]">
+                      {[...Array(rev.rating || 5)].map((_, idx) => (
+                        <Star key={idx} className="w-4 h-4 fill-[#1C295E]" />
+                      ))}
+                    </div>
+                    <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic">
+                      « {language === 'en' && rev.commentEn ? rev.commentEn : rev.comment} »
+                    </p>
                   </div>
-                  <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic">
-                    « {language === 'en' && rev.commentEn ? rev.commentEn : rev.comment} »
-                  </p>
+                  <div className="pt-2">
+                    <p className="font-cinzel text-base font-bold text-[#1C295E]">{rev.name}</p>
+                    {rev.roleOrCity && (
+                      <p className="text-xs text-slate-500">{rev.roleOrCity}</p>
+                    )}
+                    <p className="text-[11px] text-slate-400 mt-0.5">{rev.date}</p>
+                  </div>
                 </div>
-                <div className="pt-2">
-                  <p className="font-cinzel text-base font-bold text-[#1C295E]">{rev.name}</p>
-                  {rev.roleOrCity && (
-                    <p className="text-xs text-slate-500">{rev.roleOrCity}</p>
-                  )}
-                  <p className="text-[11px] text-slate-400 mt-0.5">{rev.date}</p>
-                </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION: CONTACTEZ-NOUS */}
-      <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 8. SECTION: CONTACTEZ-NOUS (FADE IN) */}
+      <FadeIn className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
@@ -697,7 +694,7 @@ export const HomeView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-2xl space-y-6">
+            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-2xl space-y-6 border border-slate-100 shadow-xs">
               <h3 className="font-cinzel text-xl font-bold text-[#1C295E]">
                 {settings.churchName}
               </h3>
@@ -732,7 +729,7 @@ export const HomeView: React.FC = () => {
               </ul>
             </div>
 
-            <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl space-y-4">
+            <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl space-y-4 border border-slate-100 shadow-xs">
               <h3 className="font-cinzel text-xl font-bold text-[#1C295E]">
                 {language === 'fr' ? 'Envoyez-nous un Message' : 'Send Us a Message'}
               </h3>
@@ -818,7 +815,8 @@ export const HomeView: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </FadeIn>
+
     </div>
   );
 };
