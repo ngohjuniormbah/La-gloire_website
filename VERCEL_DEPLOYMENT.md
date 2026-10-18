@@ -30,3 +30,12 @@ Push this folder to a GitHub repository, import that repository in Vercel, keep 
 - Redeploy and verify that data still exists. MySQL and Blob provide persistence; the Vercel function filesystem is not used for persistent data.
 
 A successful build alone does not prove database connectivity. Complete this checklist against the actual configured deployment before using the site for real member information.
+
+## Demo content (client presentation)
+
+The site ships with sample photos, missions, testimonials and member profile icons so it looks complete
+on first deploy (even before the database is connected). Each section shows demo content only while it has no
+real content; publishing something from the admin page replaces the demo for that section.
+
+To remove ALL demo content before going live, set `NEXT_PUBLIC_SHOW_DEMO=false` in Vercel and redeploy.
+The demo pictures live in `public/demo/` and can be deleted afterwards.

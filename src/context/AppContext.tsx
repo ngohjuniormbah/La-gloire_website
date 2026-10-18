@@ -12,6 +12,7 @@ import {
 } from '../types';
 import { translations } from '../i18n/translations';
 import { api } from '../api';
+import { SHOW_DEMO, DEMO_GALLERY, DEMO_CAMPAIGNS, DEMO_REVIEWS, DEMO_MEMBERS, CommunityMember } from '../data/demo';
 
 const EMPTY_SETTINGS: SiteSettings = {
   churchName: 'La Gloire de Dieu',
@@ -33,6 +34,8 @@ interface AppContextType {
   gallery: GalleryItem[];
   reviews: Review[];
   settings: SiteSettings;
+  /** Members shown as profile icons (demo content only, hidden when demo is off). */
+  communityMembers: CommunityMember[];
   refreshContent: () => Promise<void>;
   /** Public form submissions (stored on the server, visible in the admin inbox). */
   processDonation: (donation: Omit<DonationRecord, 'id' | 'receiptNumber' | 'date' | 'status'>) => Promise<DonationRecord>;
@@ -158,11 +161,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setLanguage,
         activePage,
         setActivePage,
-        campaigns,
+        campaigns: campaigns.length ? campaigns : SHOW_DEMO ? DEMO_CAMPAIGNS : [],
         mediaList,
-        gallery,
-        reviews,
+        gallery: gallery.length ? gallery : SHOW_DEMO ? DEMO_GALLERY : [],
+        reviews: reviews.length ? reviews : SHOW_DEMO ? DEMO_REVIEWS : [],
         settings,
+        communityMembers: SHOW_DEMO ? DEMO_MEMBERS : [],
         refreshContent,
         processDonation,
         registerMember,

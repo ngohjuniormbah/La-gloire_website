@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import { CommunityMembers } from '../components/CommunityMembers';
 import { UserCheck, UserPlus, LogIn, ArrowRight } from 'lucide-react';
 
 export const MembershipView: React.FC = () => {
@@ -129,6 +130,11 @@ export const MembershipView: React.FC = () => {
           </div>
 
         </div>
+      </section>
+
+      {/* Community members */}
+      <section className="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <CommunityMembers />
       </section>
 
       {/* 4. Action Section: Direct link to the dedicated Login / Sign-In Page */}

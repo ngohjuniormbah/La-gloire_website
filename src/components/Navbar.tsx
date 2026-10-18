@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 gap-4 xl:gap-8">
+        <div className="flex items-center justify-between h-18 gap-3 xl:gap-4">
           {/* Brand emblem */}
           <button
             onClick={() => handleNavClick('home')}
@@ -57,14 +57,14 @@ export const Navbar: React.FC = () => {
           </button>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-3 shrink-0">
+          <nav className="hidden xl:flex items-center space-x-1 shrink-0">
             {navLinks.map((link) => {
               const isActive = activePage === link.id;
               return (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
-                  className={`relative px-3 py-1.5 text-xs xl:text-sm font-medium whitespace-nowrap cursor-pointer transition-colors ${
+                  className={`relative px-2.5 py-1.5 text-sm font-medium whitespace-nowrap cursor-pointer transition-colors ${
                     isActive ? 'text-[#1C295E] font-semibold' : 'text-slate-600 hover:text-[#1C295E]'
                   }`}
                 >
@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 text-slate-700 cursor-pointer"
+              className="xl:hidden px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 text-slate-700 cursor-pointer"
               aria-label="Menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -113,7 +113,7 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t px-4 pt-3 pb-5 space-y-1 bg-white text-slate-800 border-slate-100 overflow-hidden"
+            className="xl:hidden border-t px-4 pt-3 pb-5 space-y-1 bg-white text-slate-800 border-slate-100 overflow-hidden"
           >
             {[...navLinks, { id: 'login' as PageId, label: language === 'fr' ? 'Espace Membre' : 'Member Portal' }].map(
               (link) => (

@@ -93,6 +93,8 @@ export interface Review {
   roleOrCity?: string;
   rating: number; // 1 to 5
   comment: string;
+  /** Optional English version shown when the site is in English */
+  commentEn?: string;
   date: string;
   approved?: boolean;
 }
@@ -126,6 +128,8 @@ export interface GalleryItem {
   source: 'link' | 'upload';
   descFr?: string;
   descEn?: string;
+  /** 'contain' keeps tall images (posters) fully visible instead of cropping them */
+  fit?: 'cover' | 'contain';
   date: string;
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { IMAGES } from '../assets/images';
+import { CommunityMembers } from '../components/CommunityMembers';
 import { Campaign } from '../types';
 import { Star, ChevronLeft, ChevronRight, Send, CheckCircle2, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
 
@@ -476,12 +477,14 @@ export const HomeView: React.FC = () => {
             </p>
           </div>
 
-          {/* Clean Message Box (Configured in Admin) */}
+          <CommunityMembers />
+
+          {/* Clean Message Box */}
           <div className="bg-white p-8 sm:p-10 rounded-2xl text-center max-w-3xl mx-auto space-y-4">
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
               {language === 'fr'
-                ? "Les différentes catégories d'adhésion, postes et responsabilités ministérielles apparaîtront ici dès leur configuration depuis la page d'administration."
-                : 'Membership categories, positions, and ministry responsibilities will appear here once configured from the admin page.'}
+                ? "Devenir membre, c'est prendre part à une famille de foi, de prière et de service, et soutenir concrètement la mission de La Gloire de Dieu."
+                : 'Becoming a member means joining a family of faith, prayer and service, and supporting the mission of La Gloire de Dieu in a concrete way.'}
             </p>
             <p className="text-xs sm:text-sm text-slate-500">
               {language === 'fr'
@@ -531,10 +534,18 @@ export const HomeView: React.FC = () => {
                   index === activeGallerySlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
               >
+                {item.fit === 'contain' && (
+                  <img
+                    src={item.src}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-60"
+                  />
+                )}
                 <img
                   src={item.src}
                   alt={language === 'fr' ? item.titleFr : item.titleEn}
-                  className="w-full h-full object-cover"
+                  className={`relative w-full h-full ${item.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 text-white max-w-2xl">
@@ -738,7 +749,7 @@ export const HomeView: React.FC = () => {
                     ))}
                   </div>
                   <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic">
-                    « {rev.comment} »
+                    « {language === 'en' && rev.commentEn ? rev.commentEn : rev.comment} »
                   </p>
                 </div>
                 <div className="pt-2">

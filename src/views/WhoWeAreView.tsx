@@ -7,6 +7,7 @@ export const WhoWeAreView: React.FC = () => {
   const leaders = [
     {
       name: "Révérend Pasteur Principal",
+      nameEn: "Senior Reverend Pastor",
       roleFr: "Visionnaire & Président Fondateur",
       roleEn: "Visionary & Founding President",
       descFr: "Consacré au ministère pastoral et évangélique, passionné par la prédication inaltérable de la Parole de Dieu, le réveil spirituel et la solidarité chrétienne mondiale.",
@@ -14,6 +15,7 @@ export const WhoWeAreView: React.FC = () => {
     },
     {
       name: "Direction des Missions & Secours",
+      nameEn: "Missions & Relief Directorate",
       roleFr: "Coordination Humanitaire & Terrain",
       roleEn: "Humanitarian Relief & Field Missions",
       descFr: "Supervise l'acheminement des vivres, des bibles et la logistique médicale dans les pays d'intervention.",
@@ -21,6 +23,7 @@ export const WhoWeAreView: React.FC = () => {
     },
     {
       name: "Conseil des Anciens & Enseignants",
+      nameEn: "Council of Elders & Teachers",
       roleFr: "Doctrine, Formation & Évangélisation",
       roleEn: "Doctrine, Training & Evangelism",
       descFr: "Veille à la fidélité biblique des enseignements et organise les séminaires de formation chrétienne.",
@@ -79,6 +82,22 @@ export const WhoWeAreView: React.FC = () => {
                 ? "« Notre mission ne s'arrête pas aux paroles : elle s'exprime dans chaque bol de nourriture distribué, chaque Bible remise entre des mains assoiffées et chaque chapelle érigée pour adorer le Seigneur. »"
                 : "“Our mission does not stop at words: it is realized in every bowl of food shared, every Bible placed into longing hands, and every chapel erected to glorify the Lord.”"}
             </p>
+          </div>
+
+          {/* Photos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <img
+              src="/demo/prayer-bible.jpg"
+              alt={language === 'fr' ? 'Prière autour de la Bible' : 'Prayer around the Bible'}
+              loading="lazy"
+              className="w-full h-64 object-cover rounded-2xl"
+            />
+            <img
+              src="/demo/globe-hands.jpg"
+              alt={language === 'fr' ? 'Des mains unies autour du monde' : 'Hands united around the world'}
+              loading="lazy"
+              className="w-full h-64 object-cover rounded-2xl"
+            />
           </div>
 
           {/* Centered Buttons */}
@@ -152,7 +171,7 @@ export const WhoWeAreView: React.FC = () => {
           {leaders.map((leader, index) => (
             <div key={index} className="space-y-2">
               <h3 className="font-cinzel text-lg sm:text-xl font-bold text-[#1C295E]">
-                {leader.name}
+                {language === 'fr' ? leader.name : leader.nameEn}
               </h3>
               <p className="text-xs uppercase tracking-wider font-semibold text-slate-500">
                 {language === 'fr' ? leader.roleFr : leader.roleEn}
