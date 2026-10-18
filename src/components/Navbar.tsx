@@ -7,8 +7,6 @@ import { LanguageToggle } from './LanguageToggle';
 export const Navbar: React.FC = () => {
   const { language, activePage, setActivePage, t } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Hide the bar when scrolling down, show it again when scrolling up
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -113,14 +111,22 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="xl:hidden border-t px-4 pt-3 pb-5 space-y-1 bg-white text-slate-800 border-slate-100 overflow-hidden"
+            className="xl:hidden border-t px-4 pt-3 pb-5 space-y-2 bg-white text-slate-800 border-slate-100 overflow-hidden"
           >
+            {/* Mobile language switch inside drawer */}
+            <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                {language === 'fr' ? 'Langue' : 'Language'}
+              </span>
+              <LanguageToggle />
+            </div>
+
             {[...navLinks, { id: 'login' as PageId, label: language === 'fr' ? 'Espace Membre' : 'Member Portal' }].map(
               (link) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
-                  className={`w-full px-3 py-2.5 text-left text-sm font-medium transition-colors cursor-pointer ${
+                  className={`w-full px-3 py-2.5 text-left text-sm font-medium transition-colors cursor-pointer rounded-lg ${
                     activePage === link.id ? 'bg-slate-50 text-[#1C295E] font-semibold' : 'text-slate-700'
                   }`}
                 >

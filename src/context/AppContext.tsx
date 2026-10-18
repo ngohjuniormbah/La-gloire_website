@@ -26,18 +26,16 @@ const EMPTY_SETTINGS: SiteSettings = {
 interface AppContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  toggleLanguage: () => void;
   activePage: PageId;
   setActivePage: (page: PageId) => void;
-  /** Public content published from the admin page (starts empty). */
   campaigns: Campaign[];
   mediaList: MediaItem[];
   gallery: GalleryItem[];
   reviews: Review[];
   settings: SiteSettings;
-  /** Members shown as profile icons (demo content only, hidden when demo is off). */
   communityMembers: CommunityMember[];
   refreshContent: () => Promise<void>;
-  /** Public form submissions (stored on the server, visible in the admin inbox). */
   processDonation: (donation: Omit<DonationRecord, 'id' | 'receiptNumber' | 'date' | 'status'>) => Promise<DonationRecord>;
   registerMember: (member: Omit<MemberRecord, 'id' | 'membershipNumber' | 'joinedDate' | 'status'>) => Promise<MemberRecord>;
   addReview: (review: { name: string; roleOrCity?: string; rating: number; comment: string }) => Promise<void>;
@@ -54,15 +52,12 @@ const VALID_PAGES: PageId[] = ['home', 'who-we-are', 'follow-us', 'donate', 'mem
 const getPageFromUrl = (): PageId => {
   if (typeof window === 'undefined') return 'home';
 
-  // 1. Hash: #admin, #/admin
   const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
   if (VALID_PAGES.includes(hash as PageId)) return hash as PageId;
 
-  // 2. Query: ?page=admin
   const pageParam = new URLSearchParams(window.location.search).get('page')?.toLowerCase();
   if (pageParam && VALID_PAGES.includes(pageParam as PageId)) return pageParam as PageId;
 
-  // 3. Path: /admin
   const path = window.location.pathname.replace(/^\//, '').trim().toLowerCase();
   if (VALID_PAGES.includes(path as PageId)) return path as PageId;
 
@@ -70,7 +65,6 @@ const getPageFromUrl = (): PageId => {
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Stable server/client initial state prevents hydration mismatches in Next.js.
   const [language, setLanguageState] = useState<Language>('fr');
   const [activePage, setActivePageState] = useState<PageId>('home');
   const [selectedCampaignForDonation, setSelectedCampaignForDonation] = useState<Campaign | null>(null);
@@ -109,11 +103,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {
       // ignore
     }
-    document.documentElement.lang = lang;
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+    }
+  };
+
+  const toggleLanguage = () => {
+    setLanguageState((prev) => {
+      const nextLang: Language = prev === 'fr' ? 'en' : 'fr';
+      try {
+        localStorage.setItem('lgd_lang', nextLang);
+      } catch {
+        // ignore
+      }
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = nextLang;
+      }
+      return nextLang;
+    });
   };
 
   useEffect(() => {
-    document.documentElement.lang = language;
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = language;
+    }
   }, [language]);
 
   const refreshContent = useCallback(async () => {
@@ -125,7 +138,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setReviews(data.reviews || []);
       setSettings({ ...EMPTY_SETTINGS, ...(data.settings || {}) });
     } catch {
-      // Server unreachable: the site simply shows no published content.
+      // fallback
     }
   }, []);
 
@@ -159,6 +172,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         language,
         setLanguage,
+        toggleLanguage,
         activePage,
         setActivePage,
         campaigns: campaigns.length ? campaigns : SHOW_DEMO ? DEMO_CAMPAIGNS : [],
