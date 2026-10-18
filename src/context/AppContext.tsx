@@ -100,9 +100,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setLanguageState(lang);
     try {
       localStorage.setItem('lgd_lang', lang);
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
     if (typeof document !== 'undefined') {
       document.documentElement.lang = lang;
     }
@@ -113,21 +111,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const nextLang: Language = prev === 'fr' ? 'en' : 'fr';
       try {
         localStorage.setItem('lgd_lang', nextLang);
-      } catch {
-        // ignore
-      }
+      } catch { /* ignore */ }
       if (typeof document !== 'undefined') {
         document.documentElement.lang = nextLang;
       }
       return nextLang;
     });
   };
-
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = language;
-    }
-  }, [language]);
 
   const refreshContent = useCallback(async () => {
     try {
@@ -137,9 +127,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setGallery(data.gallery || []);
       setReviews(data.reviews || []);
       setSettings({ ...EMPTY_SETTINGS, ...(data.settings || {}) });
-    } catch {
-      // fallback
-    }
+    } catch { /* ignore */ }
   }, []);
 
   useEffect(() => {

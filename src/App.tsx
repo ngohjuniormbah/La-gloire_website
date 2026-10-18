@@ -13,7 +13,7 @@ import { LoginView } from './views/LoginView';
 import { motion, AnimatePresence } from 'motion/react';
 
 const AppContent: React.FC = () => {
-  const { activePage } = useApp();
+  const { activePage, language } = useApp();
   const [scrollProgress, setScrollProgress] = React.useState(0);
 
   React.useEffect(() => {
@@ -54,8 +54,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-800 relative">
-      {/* Dynamic Scroll Progress Bar */}
+    <div className="min-h-screen flex flex-col bg-white text-slate-800 relative notranslate" translate="no">
       <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-slate-200/40 pointer-events-none">
         <div
           className="h-full bg-[#1C295E] transition-all duration-150 ease-out"
@@ -63,26 +62,23 @@ const AppContent: React.FC = () => {
         />
       </div>
 
-      {/* Navbar rendered on public pages */}
       {activePage !== 'admin' && <Navbar />}
 
       <main className="flex-1">
         <AnimatePresence mode="wait">
           <motion.div
-            key={activePage}
+            key={`${activePage}-${language}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: 0.15, ease: 'easeInOut' }}
           >
             {renderActiveView()}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Footer rendered on public pages */}
       {activePage !== 'admin' && <Footer />}
-
     </div>
   );
 };
