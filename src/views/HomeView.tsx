@@ -8,13 +8,9 @@ import { Star, ChevronLeft, ChevronRight, Send, CheckCircle2, MapPin, Phone, Mai
 export const HomeView: React.FC = () => {
   const { t, setActivePage, campaigns, setSelectedCampaignForDonation, language, reviews, addReview, addContactMessage, gallery, settings } = useApp();
 
-  // Background slideshow for global Christian support
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Gallery slideshow state
   const [gallerySlide, setGallerySlide] = useState(0);
 
-  // Review form state
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [revName, setRevName] = useState('');
   const [revRole, setRevRole] = useState('');
@@ -23,7 +19,6 @@ export const HomeView: React.FC = () => {
   const [revSuccess, setRevSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
 
-  // Contact form state
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactSubject, setContactSubject] = useState('');
@@ -45,7 +40,6 @@ export const HomeView: React.FC = () => {
     return () => clearInterval(timer);
   }, [gallery.length]);
 
-  // Keep the current slide valid when photos are added or removed
   const activeGallerySlide = gallery.length ? gallerySlide % gallery.length : 0;
 
   const handleDonateToCampaign = (campaign: Campaign) => {
@@ -104,11 +98,8 @@ export const HomeView: React.FC = () => {
 
   return (
     <div className="space-y-20 pb-24 text-slate-800 bg-white">
-      
-      {/* HERO SECTION: WELCOME TO LA GLOIRE DE DIEU WITH 3 FADING BACKGROUND PHOTOS */}
+      {/* HERO SECTION */}
       <section className="relative min-h-[520px] sm:min-h-[580px] flex items-center justify-center overflow-hidden bg-slate-900">
-        
-        {/* Slideshow: 3 background photos fading in and out */}
         <div className="absolute inset-0 z-0">
           {IMAGES.heroSlides.map((slide, index) => (
             <div
@@ -124,12 +115,9 @@ export const HomeView: React.FC = () => {
               />
             </div>
           ))}
-
-          {/* Clean dark overlay for text legibility */}
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        {/* Centered Hero Content (Clean, No Logo, No Icons, No Shadows) */}
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-20 text-center text-white">
           <h1 className="font-cinzel text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
             {language === 'fr'
@@ -143,7 +131,6 @@ export const HomeView: React.FC = () => {
               : "A Christian association committed to raising funds and delivering tangible spiritual and humanitarian relief to vulnerable and persecuted Christian communities worldwide."}
           </p>
 
-          {/* 2 CTA Buttons: Qui Sommes-Nous & Contact */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
             <button
               onClick={() => setActivePage('who-we-are')}
@@ -160,7 +147,6 @@ export const HomeView: React.FC = () => {
             </button>
           </div>
 
-          {/* Slide Indicator Dots */}
           <div className="mt-10 flex items-center justify-center gap-2">
             {IMAGES.heroSlides.map((_, i) => (
               <button
@@ -173,14 +159,12 @@ export const HomeView: React.FC = () => {
               />
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* SECTION: QUI SOMMES-NOUS ? (PRÉSENTATION DE L'ASSOCIATION ET MINISTÈRES EN BLOCS DE PARAGRAPHES) */}
+      {/* SECTION: QUI SOMMES-NOUS ? (SUMMARIZED INTO 2 CONCISE PARAGRAPHS) */}
       <section className="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="space-y-8">
-          
           <div className="text-center space-y-3">
             <h2 className="font-cinzel text-2xl sm:text-4xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Qui Sommes-Nous ?' : 'Who We Are'}
@@ -192,34 +176,20 @@ export const HomeView: React.FC = () => {
             </p>
           </div>
 
-          {/* Clean, Simple Blocks of Paragraphs */}
-          <div className="space-y-6 text-base sm:text-lg text-slate-700 leading-relaxed">
+          <div className="space-y-6 text-base sm:text-lg text-slate-700 leading-relaxed text-justify sm:text-left">
             <p>
               {language === 'fr'
-                ? "L'association 'La Gloire de Dieu' est une communauté chrétienne évangélique vouée corps et âme à prêcher la Parole vivante, inaltérable et souveraine de Dieu. Fondés sur la foi en notre Seigneur Jésus-Christ et conduits par le Saint-Esprit, nous proclamons le message du salut, de la vérité et de la grâce aux nations pour transformer les vies et enraciner les croyants dans la saine doctrine biblique."
-                : "The 'La Gloire de Dieu' association is a Bible-believing Christian ministry wholeheartedly dedicated to preaching the living, unchanging Word of God. Grounded in faith in our Lord Jesus Christ and led by the Holy Spirit, we proclaim the Gospel of salvation, truth, and grace across the nations to transform lives and establish believers in sound biblical doctrine."}
+                ? "L'association « La Gloire de Dieu » est une communauté chrétienne évangélique vouée à proclamer fidèlement la Parole vivante de Dieu et le salut en Jésus-Christ. À travers l'évangélisation, la formation pastorale et la distribution gratuite de Bibles en langues locales, nous œuvrons pour fortifier la foi et apporter la lumière de l'Évangile jusqu'aux régions les plus isolées."
+                : "The “La Gloire de Dieu” association is a Bible-grounded Christian ministry dedicated to faithfully proclaiming God’s living Word and salvation in Jesus Christ. Through evangelistic outreach, pastoral training, and free Bible distribution in native languages, we work to build up believers and bring the light of the Gospel to the most remote communities."}
             </p>
 
             <p>
               {language === 'fr'
-                ? "Notre mission première est la proclamation inlassable des Saintes Écritures. Par l'organisation de campagnes d'évangélisation, la formation théologique approfondie de pasteurs et serviteurs de Dieu, et la distribution gratuite de Bibles complètes en langues locales, nous veillons à ce que la lumière de l'Évangile brille avec puissance dans les zones les plus isolées."
-                : "Our central mission is the faithful proclamation of Holy Scripture. Through evangelistic crusades, thorough biblical training for pastors and Christian workers, and the free distribution of complete Bibles in native tongues, we ensure that the light of the Gospel shines brightly even in the most remote areas."}
-            </p>
-
-            <p>
-              {language === 'fr'
-                ? "Cette vocation spirituelle s'accompagne d'une solidarité active sans frontières. Nous apportons un secours d'urgence vital—denrées alimentaires, vêtements, soins médicaux et abris—aux communautés chrétiennes persécutées, aux réfugiés et aux familles éprouvées, manifestant ainsi de manière tangible la miséricorde vivante du Christ."
-                : "This spiritual calling is matched by compassionate global solidarity. We provide vital emergency relief—nutritional supplies, clothing, urgent medical assistance, and shelter—to persecuted Christian communities, displaced refugees, and suffering families, demonstrating the living compassion of Christ."}
-            </p>
-
-            <p>
-              {language === 'fr'
-                ? "Enfin, nous bâtissons des sanctuaires solides où les fidèles peuvent s'assembler en paix pour louer et entendre la Parole, nous forons des puits d'eau potable durables offerts gratuitement aux populations avoisinantes, et nous prenons en charge de manière holistique les orphelins (scolarité, repas, santé et suivi spirituel) pour leur offrir une espérance certaine en Jésus-Christ."
-                : "Furthermore, we construct sturdy sanctuaries where believers gather peacefully to worship, drill long-lasting solar freshwater wells provided freely to neighboring villages, and provide holistic orphan sponsorship (schooling, balanced meals, medical care, and discipleship) ensuring a hopeful future in Jesus Christ."}
+                ? "Notre foi s'incarne dans une solidarité active sans frontières : nous apportons un secours d'urgence vital (vivres, soins et abris) aux chrétiens persécutés et réfugiés, tout en réalisant des forages d'eau potable, des sanctuaires communautaires et la prise en charge complète des orphelins pour manifester concrètement l'amour du Christ."
+                : "Our faith is put into decisive action worldwide: providing urgent humanitarian relief (food, medical aid, and shelter) to persecuted and displaced believers, alongside building community sanctuaries, drilling clean freshwater wells, and offering full orphan sponsorship to tangibly demonstrate Christ's love."}
             </p>
           </div>
 
-          {/* Action to Full Presentation */}
           <div className="text-center pt-2">
             <button
               onClick={() => setActivePage('who-we-are')}
@@ -228,14 +198,12 @@ export const HomeView: React.FC = () => {
               {language === 'fr' ? 'En savoir plus sur notre vision et gouvernance' : 'Learn more about our vision and governance'}
             </button>
           </div>
-
         </div>
       </section>
 
-      {/* SECTION: NOUS SUIVRE (VIDÉOS, LIVRES CLEFS, DIRECTS, CONFÉRENCES, SÉMINAIRES, PRIÈRES, ENSEIGNEMENT ETC) */}
+      {/* SECTION: NOUS SUIVRE */}
       <section className="bg-white py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Nous Suivre' : 'Follow Us'}
@@ -252,10 +220,7 @@ export const HomeView: React.FC = () => {
             </p>
           </div>
 
-          {/* Content Highlights (Pure white cards, no borders around text, no demo text or days) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Live Broadcast Card */}
             <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -280,7 +245,6 @@ export const HomeView: React.FC = () => {
               </div>
             </div>
 
-            {/* Video / Teaching Card */}
             <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -305,7 +269,6 @@ export const HomeView: React.FC = () => {
               </div>
             </div>
 
-            {/* Key Books Card */}
             <div className="bg-white p-6 rounded-2xl flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -329,7 +292,6 @@ export const HomeView: React.FC = () => {
                 </button>
               </div>
             </div>
-
           </div>
 
           <div className="text-center pt-2">
@@ -340,15 +302,13 @@ export const HomeView: React.FC = () => {
               {language === 'fr' ? 'Voir toutes les vidéos, livres, conférences et prières' : 'Browse all videos, books, conferences, and prayers'}
             </button>
           </div>
-
         </div>
       </section>
 
-      {/* SECTION: MISSIONS PRIORITAIRES & ACTIONS DE SOUTIEN */}
+      {/* SECTION: MISSIONS PRIORITAIRES */}
       {campaigns.length > 0 && (
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Missions & Projets Prioritaires' : 'Priority Missions & Projects'}
@@ -358,14 +318,8 @@ export const HomeView: React.FC = () => {
                 ? 'Soutenez concrètement les œuvres d’évangélisation et de miséricorde'
                 : 'Directly support active evangelism and compassion works'}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
-              {language === 'fr'
-                ? "Chaque projet répond à un besoin vital sur le terrain : secours d'urgence, distribution de Bibles, construction de sanctuaires durables et parrainage d'enfants."
-                : "Each initiative meets a vital frontline need: emergency food relief, Bible distribution, rural sanctuaries, and orphan care."}
-            </p>
           </div>
 
-          {/* Clean, Mobile Responsive Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {campaigns.slice(0, 4).map((campaign) => {
               const title = language === 'fr' ? campaign.titleFr : campaign.titleEn;
@@ -377,7 +331,6 @@ export const HomeView: React.FC = () => {
                   className="bg-white rounded-2xl flex flex-col justify-between space-y-4 hover:translate-y-[-2px] transition-transform duration-200"
                 >
                   <div className="space-y-3">
-                    {/* Picture */}
                     {campaign.imageUrl && (
                       <div className="relative h-48 w-full overflow-hidden rounded-xl bg-slate-100">
                         <img
@@ -388,7 +341,6 @@ export const HomeView: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Title & Description */}
                     <div className="space-y-2 pt-1">
                       <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-500">
                         {campaign.location}
@@ -400,7 +352,7 @@ export const HomeView: React.FC = () => {
                         {desc}
                       </p>
                     </div>
-                    {/* Progress Bar - Prominently Displayed */}
+
                     {(() => {
                       const percentage = Math.min(
                         100,
@@ -430,7 +382,6 @@ export const HomeView: React.FC = () => {
                     })()}
                   </div>
 
-                  {/* Support this Mission Button */}
                   <div className="pt-2">
                     <button
                       onClick={() => handleDonateToCampaign(campaign)}
@@ -452,7 +403,6 @@ export const HomeView: React.FC = () => {
               {language === 'fr' ? 'Faire un Don' : 'Make a Donation'}
             </button>
           </div>
-
         </div>
       </section>
       )}
@@ -460,7 +410,6 @@ export const HomeView: React.FC = () => {
       {/* SECTION: DEVENIR MEMBRE */}
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Devenir Membre' : 'Become a Member'}
@@ -470,26 +419,15 @@ export const HomeView: React.FC = () => {
                 ? 'Engagement, communion fraternelle et service divin'
                 : 'Commitment, fellowship, and divine service'}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
-              {language === 'fr'
-                ? 'Prenez une part active dans la mission de La Gloire de Dieu et rejoignez une alliance fraternelle mondiale.'
-                : 'Take an active part in our Kingdom mission and join a worldwide Christian alliance.'}
-            </p>
           </div>
 
           <CommunityMembers />
 
-          {/* Clean Message Box */}
           <div className="bg-white p-8 sm:p-10 rounded-2xl text-center max-w-3xl mx-auto space-y-4">
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
               {language === 'fr'
                 ? "Devenir membre, c'est prendre part à une famille de foi, de prière et de service, et soutenir concrètement la mission de La Gloire de Dieu."
                 : 'Becoming a member means joining a family of faith, prayer and service, and supporting the mission of La Gloire de Dieu in a concrete way.'}
-            </p>
-            <p className="text-xs sm:text-sm text-slate-500">
-              {language === 'fr'
-                ? 'Vous pouvez dès à présent soumettre votre engagement chrétien ou contacter le secrétariat pastoral.'
-                : 'You may already explore membership terms or connect with the pastoral secretariat.'}
             </p>
             <div className="pt-2">
               <button
@@ -500,15 +438,13 @@ export const HomeView: React.FC = () => {
               </button>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* SECTION: GALERIE PHOTOS & MISSIONS */}
+      {/* SECTION: GALERIE */}
       {gallery.length > 0 && (
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Galerie Photos & Missions' : 'Photo Gallery & Missions'}
@@ -518,14 +454,8 @@ export const HomeView: React.FC = () => {
                 ? 'Nos rassemblements, cultes, chantiers et actions de solidarité en images'
                 : 'Our fellowship, worship, relief missions, and church planting in pictures'}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
-              {language === 'fr'
-                ? 'Découvrez en images la gloire de Dieu en action à travers nos cultes d’adoration, réunions de prière et secours sur le terrain.'
-                : 'See God’s glory in action through our worship services, prayer gatherings, and compassionate field missions.'}
-            </p>
           </div>
 
-          {/* Slideshow Display */}
           <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-16/9 sm:aspect-21/9 max-h-[500px] w-full">
             {gallery.map((item, index) => (
               <div
@@ -559,7 +489,6 @@ export const HomeView: React.FC = () => {
               </div>
             ))}
 
-            {/* Previous Button */}
             <button
               onClick={() => setGallerySlide((activeGallerySlide - 1 + gallery.length) % gallery.length)}
               className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs transition-colors cursor-pointer"
@@ -568,7 +497,6 @@ export const HomeView: React.FC = () => {
               <ChevronLeft className="w-5 h-5" />
             </button>
 
-            {/* Next Button */}
             <button
               onClick={() => setGallerySlide((activeGallerySlide + 1) % gallery.length)}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs transition-colors cursor-pointer"
@@ -578,7 +506,6 @@ export const HomeView: React.FC = () => {
             </button>
           </div>
 
-          {/* Gallery Thumbnails Strip */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap pt-2">
             {gallery.map((item, idx) => (
               <button
@@ -598,15 +525,13 @@ export const HomeView: React.FC = () => {
               </button>
             ))}
           </div>
-
         </div>
       </section>
       )}
 
-      {/* SECTION: TÉMOIGNAGES & AVIS */}
+      {/* SECTION: TÉMOIGNAGES */}
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Témoignages & Avis' : 'Testimonials & Reviews'}
@@ -616,14 +541,8 @@ export const HomeView: React.FC = () => {
                 ? 'L’impact de l’œuvre de Dieu dans la vie des fidèles et des partenaires'
                 : 'The impact of God’s work in the lives of believers and partners'}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
-              {language === 'fr'
-                ? 'Découvrez ce que disent les membres et soutiens de La Gloire de Dieu, ou laissez votre propre témoignage.'
-                : 'Discover reflections from members and supporters of La Gloire de Dieu, or leave your own review.'}
-            </p>
           </div>
 
-          {/* Action button to open review form */}
           <div className="text-center">
             <button
               onClick={() => setShowReviewForm(!showReviewForm)}
@@ -638,7 +557,6 @@ export const HomeView: React.FC = () => {
             </button>
           </div>
 
-          {/* Interactive Review Form */}
           {showReviewForm && (
             <div className="bg-white p-6 sm:p-8 rounded-2xl max-w-2xl mx-auto space-y-4">
               <h3 className="font-cinzel text-lg font-bold text-[#1C295E]">
@@ -735,7 +653,6 @@ export const HomeView: React.FC = () => {
             </div>
           )}
 
-          {/* Reviews Grid */}
           <div className={reviews.length ? 'grid grid-cols-1 md:grid-cols-3 gap-6' : 'hidden'}>
             {reviews.slice(0, 6).map((rev) => (
               <div
@@ -762,14 +679,12 @@ export const HomeView: React.FC = () => {
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* SECTION: CONTACTEZ-NOUS */}
       <section className="bg-white max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1C295E]">
               {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
@@ -779,16 +694,9 @@ export const HomeView: React.FC = () => {
                 ? 'Une question, un besoin de prière ou d’information ?'
                 : 'Questions, prayer requests, or fellowship inquiries'}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
-              {language === 'fr'
-                ? 'Notre équipe pastorale et administrative est à votre écoute pour vous répondre et prier avec vous.'
-                : 'Our pastoral and administrative team is available to assist and pray with you.'}
-            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Contact Details */}
             <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-2xl space-y-6">
               <h3 className="font-cinzel text-xl font-bold text-[#1C295E]">
                 {settings.churchName}
@@ -824,7 +732,6 @@ export const HomeView: React.FC = () => {
               </ul>
             </div>
 
-            {/* Quick Contact Form */}
             <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl space-y-4">
               <h3 className="font-cinzel text-xl font-bold text-[#1C295E]">
                 {language === 'fr' ? 'Envoyez-nous un Message' : 'Send Us a Message'}
@@ -909,12 +816,9 @@ export const HomeView: React.FC = () => {
                 </form>
               )}
             </div>
-
           </div>
-
         </div>
       </section>
-
     </div>
   );
 };
