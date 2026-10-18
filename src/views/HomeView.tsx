@@ -117,7 +117,7 @@ export const HomeView: React.FC = () => {
               }`}
             >
               <img
-                src={slide}
+                src={typeof slide === "string" ? slide : slide.src}
                 alt="Soutien aux communautés chrétiennes dans le monde"
                 className="w-full h-full object-cover"
               />
