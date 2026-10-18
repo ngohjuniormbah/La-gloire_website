@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-cinzel {
+    font-family: 'Cinzel', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  .font-scripture {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Smooth fade in animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Translucent hero-style glass button: translucent by default, turns blue on hover */
+.btn-translucent-hero {
+  background-color: rgba(28, 41, 94, 0.06);
+  border: 1px solid rgba(28, 41, 94, 0.22);
+  color: #1C295E;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-translucent-hero:hover {
+  background-color: #1C295E;
+  border-color: #1C295E;
+  color: #ffffff;
+}
